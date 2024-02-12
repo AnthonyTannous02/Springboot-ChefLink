@@ -106,22 +106,24 @@ public class CustomerRestController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode resultNode = objectMapper.createObjectNode();
+        try{
+            for (int i = 0; i < need.size(); i++) {
+                String field = need.get(i);
 
-        for (int i = 0; i < need.size(); i++) {
-            String field = need.get(i);
-
-            switch (field) {
-                case "email" -> resultNode.put(field, customer.getemail());
-                case "uUID" -> resultNode.put(field, customer.getuUID());
-                case "firstName" -> resultNode.put(field, customer.getfirstName());
-                case "lastName" -> resultNode.put(field, customer.getlastName());
-                case "gender" -> resultNode.put(field, customer.getgender());
-                case "dateOfBirth" -> resultNode.put(field, customer.getDateOfBirth());
-                case "phone_Number" -> resultNode.put(field, customer.getphone_Number());
-                case "p_URL" -> resultNode.put(field, customer.getP_URL());
-                case "username" -> resultNode.put(field, customer.getusername());
+                switch (field) {
+                    case "email" -> resultNode.put(field, customer.getemail());
+                    case "uUID" -> resultNode.put(field, customer.getuUID());
+                    case "firstName" -> resultNode.put(field, customer.getfirstName());
+                    case "lastName" -> resultNode.put(field, customer.getlastName());
+                    case "gender" -> resultNode.put(field, customer.getgender());
+                    case "dateOfBirth" -> resultNode.put(field, customer.getDateOfBirth());
+                    case "phone_Number" -> resultNode.put(field, customer.getphone_Number());
+                    case "p_URL" -> resultNode.put(field, customer.getP_URL());
+                    case "username" -> resultNode.put(field, customer.getusername());
+                }
             }
-
+        }catch(Exception e){
+            
         }
 
         return resultNode;
