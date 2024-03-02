@@ -4,20 +4,20 @@ import org.springframework.stereotype.Service;
 
 import com.SoftwareEngineeringProject.demo.entity.Customer;
 
-import java.io.IOException;
-import java.io.InputStream;
+//import java.io.IOException;
+//import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
+// import java.util.Optional;
+// import java.util.function.Function;
 
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
-import org.springframework.stereotype.Service;
+// import org.springframework.core.io.ClassPathResource;
+// import org.springframework.core.io.Resource;
+// import org.springframework.data.domain.Example;
+// import org.springframework.data.domain.Page;
+// import org.springframework.data.domain.Pageable;
+// import org.springframework.data.domain.Sort;
+// import org.springframework.data.repository.query.FluentQuery.FetchableFluentQuery;
+// import org.springframework.stereotype.Service;
 
 @Service
 public class CustomerService {
@@ -36,10 +36,8 @@ public class CustomerService {
         return customerRepository.findAll();
     }
 
-    public List<Customer> findAll(){
+    public List<Customer> findAll() {
         return customerRepository.findAll();
     }
-
-    
 
 }

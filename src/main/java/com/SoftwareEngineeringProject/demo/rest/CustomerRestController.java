@@ -4,13 +4,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
+//import org.springframework.boot.autoconfigure.SpringBootApplication;
+//import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
+//import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+//import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 //import org.springframework.web.bind.annotation.PostMapping;
@@ -23,9 +23,9 @@ import com.SoftwareEngineeringProject.demo.dao.CustomerDAO;
 import com.SoftwareEngineeringProject.demo.dao.CustomerService;
 import com.SoftwareEngineeringProject.demo.entity.Customer;
 
-import jakarta.annotation.PostConstruct;
+//import jakarta.annotation.PostConstruct;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+//import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -44,7 +44,7 @@ public class CustomerRestController {
         this.mongotemplate = mongotemplate;
     }
 
-    private List<Customer> cust;
+//    private List<Customer> cust;
 
     // @PostConstruct
     // public void loadData() {
