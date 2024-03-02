@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.SoftwareEngineeringProject.demo.subEntity.FoodCategory;
 import com.SoftwareEngineeringProject.demo.subEntity.FoodOption;
-import com.SoftwareEngineeringProject.demo.subEntity.FoodReview;
 
 @Document(collection = "Food")
 public class Food {
@@ -20,12 +19,11 @@ public class Food {
     private List<String> ingredients;
     private String description;
     private FoodOption option;
-    private FoodReview food_review;
     private FoodCategory category;
 
     public Food(String id_food, String name, double price, String picture, String timing, List<String> ingredients,
             String description,
-            FoodOption option, FoodReview food_review, FoodCategory category) {
+            FoodOption option, FoodCategory category) {
         this.id_food = id_food;
         this.name = name;
         this.price = price;
@@ -33,7 +31,7 @@ public class Food {
         this.ingredients = ingredients;
         this.description = description;
         this.option = option;
-        this.food_review = food_review;
+
         this.category = category;
         this.timing = timing;
     }
@@ -92,14 +90,6 @@ public class Food {
 
     public void setOption(FoodOption option) {
         this.option = option;
-    }
-
-    public FoodReview getFood_review() {
-        return food_review;
-    }
-
-    public void setFood_review(FoodReview food_review) {
-        this.food_review = food_review;
     }
 
     public FoodCategory getCategory() {

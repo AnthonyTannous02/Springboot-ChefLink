@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.SoftwareEngineeringProject.demo.dao.FoodService;
 import com.SoftwareEngineeringProject.demo.entity.Food;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ArrayNode;
+//import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 @RestController
@@ -40,7 +40,7 @@ public class FoodRestController {
             ObjectNode foodNode = objectMapper.valueToTree(food);
             //foodArrayNode.add(foodNode);
             rootNode.set(food.getId_food(), foodNode);
-   
+
         }
         return rootNode;
     }

@@ -10,23 +10,27 @@ public class Cart {
 
     private String location;
     private double price;
-    private List <String> items;
+    private List <String> item_ids;
     private String order_date;
     private String completion_time;
     private String status;
     private String delivery_person;
     private String payment_method;
+    private String user_id;
 
-    public Cart(String location, double price, List<String> items, String order_date,
-            String completion_time, String status, String delivery_person, String payment_method) {
+
+
+	public Cart(String location, double price, List<String> item_ids, String order_date,
+            String completion_time, String status, String delivery_person, String payment_method, String user_id) {
         this.location = location;
         this.price = price;
-        this.items = items;
+        this.item_ids = item_ids;
         this.order_date = order_date;
         this.completion_time = completion_time;
         this.status = status;
         this.delivery_person = delivery_person;
         this.payment_method = payment_method;
+        this.user_id = user_id;
     }
 
     public String getiD() {
@@ -53,12 +57,12 @@ public class Cart {
         this.price = price;
     }
 
-    public List<String> getItems() {
-        return items;
+    public List<String> getItem_ids() {
+        return item_ids;
     }
 
-    public void setItems(List<String> items) {
-        this.items = items;
+    public void setItem_ids(List<String> item_ids) {
+        this.item_ids = item_ids;
     }
 
     public String getOrder_date() {
@@ -100,5 +104,14 @@ public class Cart {
     public void setPayment_method(String payment_method) {
         this.payment_method = payment_method;
     }
+
+
+    public String getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(String user_id) {
+		this.user_id = user_id;
+	}
 
 }
