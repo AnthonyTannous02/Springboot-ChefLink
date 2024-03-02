@@ -4,36 +4,41 @@ import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.SoftwareEngineeringProject.demo.subEntity.FoodCategory;
 import com.SoftwareEngineeringProject.demo.subEntity.FoodOption;
 
 @Document(collection = "Food")
 public class Food {
-
+    
     private String id_food;
     private String name;
     private double price;
+    private double total_rating;
     private String picture;
     private String timing;
     private List<String> ingredients;
     private String description;
-    private FoodOption option;
+    private List<FoodOption> options;
     private FoodCategory category;
 
-    public Food(String id_food, String name, double price, String picture, String timing, List<String> ingredients,
+    public Food(String id_food, String name, double price, double total_rating, String picture, String timing, List<String> ingredients,
             String description,
-            FoodOption option, FoodCategory category) {
+            List<FoodOption> options, FoodCategory category) {
         this.id_food = id_food;
         this.name = name;
         this.price = price;
         this.picture = picture;
         this.ingredients = ingredients;
         this.description = description;
-        this.option = option;
-
+        this.options = options;
+        this.total_rating = total_rating;
         this.category = category;
         this.timing = timing;
+    }
+
+    public Food() {
     }
 
     public String getId_food() {
@@ -84,12 +89,12 @@ public class Food {
         this.description = description;
     }
 
-    public FoodOption getOption() {
-        return option;
+    public List<FoodOption> getOptions() {
+        return options;
     }
 
-    public void setOption(FoodOption option) {
-        this.option = option;
+    public void setOptions(List<FoodOption> options) {
+        this.options = options;
     }
 
     public FoodCategory getCategory() {
@@ -108,4 +113,18 @@ public class Food {
         this.timing = timing;
     }
 
+    public double getTotal_rating() {
+        return total_rating;
+    }
+
+    public void setTotal_rating(double total_rating) {
+        this.total_rating = total_rating;
+    }
+
+    @Override
+    public String toString() {
+        return "Food [id_food=" + id_food + ", name=" + name + ", price=" + price + ", total_rating=" + total_rating
+                + ", picture=" + picture + ", timing=" + timing + ", ingredients=" + ingredients + ", description="
+                + description + ", options=" + options + ", category=" + category + "]";
+    }
 }
