@@ -22,6 +22,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeFactory;
 //import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
@@ -40,19 +41,16 @@ public class FoodRestController {
     // }
 
     @GetMapping
-    public ObjectNode getAllFoodAsJson() {
+    public ArrayNode getAllFoodAsJson() {
         List<Food> foods = foodService.getAllFood();
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode rootNode = objectMapper.createObjectNode();
-        //ArrayNode foodArrayNode= rootNode.putArray("foods");
-
+        ArrayNode foodArrayNode= rootNode.putArray("foods");
         for (Food food : foods) {
             ObjectNode foodNode = objectMapper.valueToTree(food);
-            //foodArrayNode.add(foodNode);
-            rootNode.set("data", foodNode);
-
+            foodArrayNode.add(foodNode);
         }
-        return rootNode;
+        return foodArrayNode;
     }
 
     @PostMapping("/add")

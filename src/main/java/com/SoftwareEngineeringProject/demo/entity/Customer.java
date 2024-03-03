@@ -1,5 +1,7 @@
 package com.SoftwareEngineeringProject.demo.entity;
 
+import java.util.List;
+
 //import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,8 +26,10 @@ public class Customer {
 
     private String dateOfBirth;
 
+    private List<String> bookmarks;
+    
     private String p_URL;
-
+    
     public String getusername() {
         return username;
     }
@@ -53,7 +57,7 @@ public class Customer {
     public String getphone_Number() {
         return phone_Number;
     }
-
+    
     public void setphone_Number(String phone_Number) {
         this.phone_Number = phone_Number;
     }
@@ -65,7 +69,7 @@ public class Customer {
     public void setgender(String gender) {
         this.gender = gender;
     }
-
+    
     public String getfirstName() {
         return firstName;
     }
@@ -77,7 +81,7 @@ public class Customer {
     public String getlastName() {
         return lastName;
     }
-
+    
     public void setlastName(String lastName) {
         this.lastName = lastName;
     }
@@ -85,9 +89,17 @@ public class Customer {
     public String getDateOfBirth() {
         return dateOfBirth;
     }
-
+    
     public void setDateOfBirth(String d) {
         this.dateOfBirth = d;
+    }
+
+    public List<String> getBookmarks() {
+        return bookmarks;
+    }
+
+    public void setBookmarks(List<String> bookmarks) {
+        this.bookmarks = bookmarks;
     }
 
     public String getP_URL() {
@@ -99,7 +111,7 @@ public class Customer {
     }
 
     public Customer(String username, String uUID, String email, String phone_Number, String gender, String firstName,
-            String lastName, String dateOfBirth, String p_URL) {
+            String lastName, String dateOfBirth, List<String> bookmarks, String p_URL) {
         this.username = username;
         this.uUID = uUID;
         this.email = email;
@@ -108,6 +120,7 @@ public class Customer {
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dateOfBirth;
+        this.bookmarks = bookmarks;
         this.p_URL = p_URL;
     }
 

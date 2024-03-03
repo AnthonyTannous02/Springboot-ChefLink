@@ -29,6 +29,7 @@ import com.SoftwareEngineeringProject.demo.entity.Customer;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 @RestController
 @RequestMapping("/api")
@@ -119,6 +120,14 @@ public class CustomerRestController {
                     case "dateOfBirth" -> resultNode.put(field, customer.getDateOfBirth());
                     case "phone_Number" -> resultNode.put(field, customer.getphone_Number());
                     case "p_URL" -> resultNode.put(field, customer.getP_URL());
+                    case "bookmarks" -> {
+                        List<String> bookmarks = customer.getBookmarks();
+                        ArrayNode bookmarksNode = objectMapper.createArrayNode();
+                        for (String bookmark : bookmarks) {
+                            bookmarksNode.add(bookmark);
+                        }
+                        resultNode.set(field, bookmarksNode);
+                    }
                     case "username" -> resultNode.put(field, customer.getusername());
                 }
             }
