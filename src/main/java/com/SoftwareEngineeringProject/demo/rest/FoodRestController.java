@@ -1,13 +1,11 @@
 package com.SoftwareEngineeringProject.demo.rest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import org.bson.Document;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.mongodb.core.aggregation.Aggregation;
-import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.SoftwareEngineeringProject.demo.dao.FoodService;
 import com.SoftwareEngineeringProject.demo.entity.Food;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import com.SoftwareEngineeringProject.demo.subEntity.FoodOption;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
@@ -35,17 +32,23 @@ public class FoodRestController {
     @Autowired
     private FoodService foodService;
 
+    private MongoTemplate mongotemplate;
     // @GetMapping
     // public List<Food> getAllFood(){
     // return foodService.getAllFood();
     // }
+
+    public FoodRestController(FoodService foodService, MongoTemplate mongotemplate) {
+        this.foodService = foodService;
+        this.mongotemplate = mongotemplate;
+    }
 
     @GetMapping
     public ArrayNode getAllFoodAsJson() {
         List<Food> foods = foodService.getAllFood();
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode rootNode = objectMapper.createObjectNode();
-        ArrayNode foodArrayNode= rootNode.putArray("foods");
+        ArrayNode foodArrayNode = rootNode.putArray("foods");
         for (Food food : foods) {
             ObjectNode foodNode = objectMapper.valueToTree(food);
             foodArrayNode.add(foodNode);
@@ -69,8 +72,45 @@ public class FoodRestController {
         ObjectNode responseNode = nodeFactory.objectNode();
         JsonNode arrayNode = objectMapper.valueToTree(foodList);
         responseNode.set("data", arrayNode);
-        
+
         return responseNode;
+    }
+
+    @GetMapping("/get_ingredients_option")
+    public ResponseEntity<ObjectNode> getIngOpt(@RequestBody JsonNode req) {
+
+        String foodId = req.get("id_food").asText();
+
+        Criteria criteria = Criteria.where("id_food").is(foodId);
+        Query query = new Query(criteria);
+
+        Food food = mongotemplate.findOne(query, Food.class);
+
+        if (food != null) {
+            ObjectMapper objectMapper = new ObjectMapper();
+            JsonNodeFactory nodeFactory = JsonNodeFactory.instance;
+            ObjectNode responseNode = nodeFactory.objectNode();
+
+            responseNode.put("id_food", foodId);
+
+            ArrayNode ingredientsArray = objectMapper.createArrayNode();
+            for (String ingredient : food.getIngredints()) {
+                ingredientsArray.add(ingredient);
+            }
+            responseNode.set("ingredients", ingredientsArray);
+
+            ArrayNode optionsArray = objectMapper.createArrayNode();
+            for (FoodOption option : food.getOptions()) {
+                ObjectNode optionNode = objectMapper.valueToTree(option);
+                optionsArray.add(optionNode);
+            }
+            responseNode.set("options", optionsArray);
+
+            return new ResponseEntity<>(responseNode, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
     }
 
 }
