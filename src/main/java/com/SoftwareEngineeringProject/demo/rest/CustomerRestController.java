@@ -45,7 +45,7 @@ public class CustomerRestController {
         this.mongotemplate = mongotemplate;
     }
 
-//    private List<Customer> cust;
+    // private List<Customer> cust;
 
     // @PostConstruct
     // public void loadData() {
@@ -107,7 +107,7 @@ public class CustomerRestController {
 
         ObjectMapper objectMapper = new ObjectMapper();
         ObjectNode resultNode = objectMapper.createObjectNode();
-        try{
+        try {
             for (int i = 0; i < need.size(); i++) {
                 String field = need.get(i);
 
@@ -131,11 +131,20 @@ public class CustomerRestController {
                     case "username" -> resultNode.put(field, customer.getusername());
                 }
             }
-        }catch(Exception e){
-            
+        } catch (Exception e) {
+
         }
 
         return resultNode;
 
     }
+
+    @PutMapping("/addBookmark")
+    public ResponseEntity<String> addBookmark(@RequestBody Map<String, String> request) {
+        String userId = request.get("userId");
+        String foodId = request.get("foodId");
+        customerService.addBookmark(userId, foodId);
+        return ResponseEntity.ok("Bookmark added successfully");
+    }
+
 }

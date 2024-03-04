@@ -1,9 +1,14 @@
 package com.SoftwareEngineeringProject.demo.dao;
 
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
 
 import com.SoftwareEngineeringProject.demo.entity.Customer;
 
+import java.util.ArrayList;
 //import java.io.IOException;
 //import java.io.InputStream;
 import java.util.List;
@@ -22,9 +27,11 @@ import java.util.List;
 @Service
 public class CustomerService {
     private final CustomerDAO customerRepository;
+    private final MongoTemplate mongoTemplate;
 
-    public CustomerService(CustomerDAO customerRepository) {
+    public CustomerService(CustomerDAO customerRepository, MongoTemplate mongoTemplate) {
         this.customerRepository = customerRepository;
+        this.mongoTemplate = mongoTemplate;
     }
 
     @SuppressWarnings("null")
@@ -38,6 +45,27 @@ public class CustomerService {
 
     public List<Customer> findAll() {
         return customerRepository.findAll();
+    }
+
+    public void addBookmark(String userId, String foodId) {
+
+        // Add other fields to update as needed
+
+        Customer customer = customerRepository.findByUsername(userId);
+        if (customer != null) {
+            Query query = Query.query(Criteria.where("username").is(userId));
+            Update update = new Update();
+            List<String> bookmarks = customer.getBookmarks();
+            if (bookmarks == null) {
+                bookmarks = new ArrayList<>();
+            }
+            bookmarks.add(foodId);
+            update.set("bookmarks", bookmarks);
+            mongoTemplate.updateFirst(query, update, Customer.class);
+
+        } else {
+            // Handle user not found scenario
+        }
     }
 
 }
