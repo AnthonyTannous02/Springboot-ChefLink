@@ -3,7 +3,7 @@ package com.SoftwareEngineeringProject.demo.rest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-
+import org.springframework.data.mongodb.core.query.Update;
 //import org.springframework.boot.autoconfigure.SpringBootApplication;
 //import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
 //import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
@@ -22,6 +22,7 @@ import java.util.*;
 import com.SoftwareEngineeringProject.demo.dao.CustomerDAO;
 import com.SoftwareEngineeringProject.demo.dao.CustomerService;
 import com.SoftwareEngineeringProject.demo.entity.Customer;
+import com.SoftwareEngineeringProject.demo.entity.Food;
 
 //import jakarta.annotation.PostConstruct;
 
@@ -139,12 +140,79 @@ public class CustomerRestController {
 
     }
 
+    // @PutMapping("/addBookmark")
+    // public ResponseEntity<String> addBookmark(@RequestBody Map<String, String> request) {
+    //     String userId = request.get("userId");
+    //     String foodId = request.get("foodId");
+    //     customerService.addBookmark(userId, foodId);
+    //     return ResponseEntity.ok("Bookmark added successfully");
+    // }
     @PutMapping("/addBookmark")
-    public ResponseEntity<String> addBookmark(@RequestBody Map<String, String> request) {
-        String userId = request.get("userId");
-        String foodId = request.get("foodId");
-        customerService.addBookmark(userId, foodId);
-        return ResponseEntity.ok("Bookmark added successfully");
+    public ResponseEntity<String> addBookmark(@RequestBody JsonNode req){
+        String UUID= req.get("uUID").asText();
+        String id_food= req.get("id_food").asText();
+
+        boolean foodExist=checkFoodExist(id_food);
+        boolean userExist=checkUserExist(UUID);
+
+        if(foodExist && userExist){
+            updateCustomerBookmark(UUID, id_food);
+            return new ResponseEntity<>("Bookmark added successfully", HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        }
+
+    private boolean checkFoodExist(String FoodId){
+        Query q=new Query(Criteria.where("id_food").is(FoodId));
+        long count = mongotemplate.count(q, Food.class);
+        return count > 0;
     }
+
+    private boolean checkUserExist(String userID){
+        Query q=new Query(Criteria.where("uUID").is(userID));
+        long count=mongotemplate.count(q,Customer.class);
+        return count>0;
+    }
+        
+    private void updateCustomerBookmark(String uUID, String id_food){
+        Query q=new Query(Criteria.where("uUID").is(uUID));
+        Update update=new Update().addToSet("bookmarks",id_food );
+        mongotemplate.updateFirst(q, update, Customer.class);
+    }
+
+   
+    @GetMapping("/getFoodId")
+    private ResponseEntity<ObjectNode> getFoodIds(@RequestBody JsonNode req){
+        
+        String uUID= req.get("uUID").asText();
+
+        boolean userStatus=checkUserExist(uUID);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode resultNode = objectMapper.createObjectNode();
+
+        if(userStatus){
+            resultNode.put("uUID", uUID);
+            
+            Query q=new Query(Criteria.where("uUID").is(uUID));
+            Customer c= mongotemplate.findOne(q, Customer.class);
+            List<String> IdsToBeReturned= c.getBookmarks();
+            //System.out.print(c);
+            ArrayNode bookmarkArr=objectMapper.createArrayNode();
+
+            for(String s: IdsToBeReturned){
+                //System.out.println(s);
+                bookmarkArr.add(s);
+            }
+            resultNode.set("Bookmarks", bookmarkArr);
+           
+            
+        }
+        return ResponseEntity.ok(resultNode);
+        
+    }
+    
 
 }

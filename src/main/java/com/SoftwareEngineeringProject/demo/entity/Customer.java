@@ -134,7 +134,8 @@ public class Customer {
                 "uUID= " + uUID +
                 ",First Name " + firstName +
                 ", Last Name " + lastName +
-                ", email= " + email;
+                ", email= " + email+
+                ", Bookmark= " +bookmarks.get(0);
     }
 
 
