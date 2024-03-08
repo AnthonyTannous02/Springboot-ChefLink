@@ -207,8 +207,8 @@ public class CustomerRestController {
                 bookmarkArr.add(s);
             }
             resultNode.set("Bookmarks", bookmarkArr);
-           
-            
+        
+        
         }
         return ResponseEntity.ok(resultNode);
         
